@@ -55,12 +55,12 @@ class Screenhome extends StatelessWidget {
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(50)),
         onPressed: (){
         if(selectedindexnotifier.value==0){
-          print("Add Transactions");
+          //print("Add Transactions");
           Navigator.of(context).pushNamed(ScreenAddTransaction.routename);
           
           
         }else{
-          print("Add Category");
+          //print("Add Category");
           showCategoryAddPopup(context);
           // final _sample=CategoryModel(
           //   id: DateTime.now().millisecondsSinceEpoch.toString(), 

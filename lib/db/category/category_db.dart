@@ -2,7 +2,7 @@ import 'package:flutter/widgets.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:moneymanagement/models/category/category_model.dart';
 
-const CAREGORY_DB_NAME="Category-Database";
+const categoryDbName="Category-Database";
 abstract class CategoryDbFunctions{
   Future<List<CategoryModel>> getCaregories();
   Future<void> insertCategory(CategoryModel value);
@@ -22,31 +22,31 @@ class CategoryDB implements CategoryDbFunctions{
 
   @override
   Future<void> insertCategory(CategoryModel value) async{
-    final _categoryDB=await Hive.openBox<CategoryModel>(CAREGORY_DB_NAME);
-    await _categoryDB.put(value.id,value);
+    final categoryDB=await Hive.openBox<CategoryModel>(categoryDbName);
+    await categoryDB.put(value.id,value);
     refreshUI();
   }
   
   @override
   Future<List<CategoryModel>> getCaregories() async{
-    final _categoryDB=await Hive.openBox<CategoryModel>(CAREGORY_DB_NAME);
-    return _categoryDB.values.toList();
+    final categoryDB=await Hive.openBox<CategoryModel>(categoryDbName);
+    return categoryDB.values.toList();
 
   }
   
   @override
   Future<void> deleteCategory(String categoryID) async{
-    final _categoryDB=await Hive.openBox<CategoryModel>(CAREGORY_DB_NAME);
-    await _categoryDB.delete(categoryID);
+    final categoryDB=await Hive.openBox<CategoryModel>(categoryDbName);
+    await categoryDB.delete(categoryID);
     refreshUI();
   }
 
   Future<void> refreshUI() async{
-    final _allcategories=await getCaregories();
+    final allcategories=await getCaregories();
     incomecategorylistlistener.value.clear();
     expensecategorylistlistener.value.clear();
     await Future.forEach(
-      _allcategories, 
+      allcategories, 
       (CategoryModel category){
         if(category.type==CategoryType.income){
           incomecategorylistlistener.value.add(category);

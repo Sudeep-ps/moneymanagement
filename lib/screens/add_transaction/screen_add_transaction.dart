@@ -69,22 +69,22 @@ class _ScreenAddTransactionState extends State<ScreenAddTransaction> {
               //date
               TextButton.icon(
                 onPressed: ()async{
-                  final _selecteddatetemp=await showDatePicker(
+                  final selecteddatetemp=await showDatePicker(
                     context: context,
                     initialDate: DateTime.now(),
-                    firstDate: DateTime.now().subtract(Duration(days: 30)),
+                    firstDate: DateTime.now().subtract(const Duration(days: 30)),
                     lastDate: DateTime.now()
                   );
-                  if(_selecteddatetemp==null){
+                  if(selecteddatetemp==null){
                     return;
                   }else{
-                    print(_selecteddatetemp.toString());
+                    //print(selecteddatetemp.toString());
                     setState(() {
-                      _selecteddate=_selecteddatetemp;
+                      _selecteddate=selecteddatetemp;
                     });
                   }
                 },
-                icon: Icon(Icons.calendar_today), 
+                icon: const Icon(Icons.calendar_today), 
                 label: Text(
                   _selecteddate==null
                   ? 'Select Date'
@@ -106,7 +106,7 @@ class _ScreenAddTransactionState extends State<ScreenAddTransaction> {
                       });                      
                     } 
                   ),
-                  Text("Income"),
+                  const Text("Income"),
                   Radio(
                     value: CategoryType.expense, 
                     groupValue: _selectedcategorytype, 
@@ -117,7 +117,7 @@ class _ScreenAddTransactionState extends State<ScreenAddTransaction> {
                       });                     
                     }
                   ),
-                  Text("Expense"),
+                  const Text("Expense"),
                 ],
               ),
               //category
@@ -137,7 +137,7 @@ class _ScreenAddTransactionState extends State<ScreenAddTransaction> {
                            );
                         }).toList(), 
                 onChanged: (selectedvalue){                  
-                  print(selectedvalue);
+                  //print(selectedvalue);
                   setState(() {
                     _categoryid=selectedvalue;
                   });
@@ -146,7 +146,7 @@ class _ScreenAddTransactionState extends State<ScreenAddTransaction> {
                   
                 },
               ),
-              SizedBox(height: 20,),
+              const SizedBox(height: 20,),
               ElevatedButton(
                 onPressed: (){
                   addTransaction();
@@ -162,12 +162,12 @@ class _ScreenAddTransactionState extends State<ScreenAddTransaction> {
   }
 
   Future<void> addTransaction() async{
-    final _purposetext=_purposeTextEditingController.text;
-    final _amounttext=_amountTextEditingController.text;
-    if(_purposetext.isEmpty){
+    final purposetext=_purposeTextEditingController.text;
+    final amounttext=_amountTextEditingController.text;
+    if(purposetext.isEmpty){
       return;
     }
-    if(_amounttext.isEmpty){
+    if(amounttext.isEmpty){
       return;
     }
     if(_selecteddate==null){
@@ -179,22 +179,22 @@ class _ScreenAddTransactionState extends State<ScreenAddTransaction> {
     if(_selectedcategorymodel==null){
       return;
     }
-    final _parsedamount = double.tryParse(_amounttext);
-    if(_parsedamount==null){
+    final parsedamount = double.tryParse(amounttext);
+    if(parsedamount==null){
       return;
     }
     //_selecteddate;
     //_selectedcategorytype;
     //_categoryid;
 
-    final _model=TransactionModel(
-      purpose: _purposetext, 
-      amount: _parsedamount, 
+    final model=TransactionModel(
+      purpose: purposetext, 
+      amount: parsedamount, 
       date: _selecteddate!, 
       type: _selectedcategorytype!, 
       category: _selectedcategorymodel!,
     );
-    TransactionDb.instance.addTransaction(_model);
+    TransactionDb.instance.addTransaction(model);
 
   }
 }

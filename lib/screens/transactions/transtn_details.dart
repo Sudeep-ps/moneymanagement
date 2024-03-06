@@ -5,10 +5,10 @@ import 'package:moneymanagement/models/transaction/transaction_model.dart';
 
 Future<void> showTransactionDetails(BuildContext context,TransactionModel currenttransaction) async{
   String parseDate1(DateTime date){
-    final _date = DateFormat.yMMMd().format(date);
-    final _splitedDate = _date.split(',');
-    final _daymonth=_splitedDate.first.toString().split(' ');
-    return '${_daymonth.last}  ${_daymonth.first} ${_splitedDate.last}';
+    final newdate = DateFormat.yMMMd().format(date);
+    final splitedDate = newdate.split(',');
+    final daymonth=splitedDate.first.toString().split(' ');
+    return '${daymonth.last}  ${daymonth.first} ${splitedDate.last}';
   }
   showDialog(context: context, builder: (context){
     return Padding(

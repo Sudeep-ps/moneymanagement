@@ -20,15 +20,15 @@ class ScreenTransaction extends StatelessWidget {
         return ListView.separated(
           padding: const EdgeInsets.all(10),
           itemBuilder: (ctx,index){
-            final _value=newlist[index];
+            final value=newlist[index];
             return  Slidable(
-              key: Key(_value.id!),
+              key: Key(value.id!),
               startActionPane: ActionPane(
                 motion: const ScrollMotion(), 
                 children: [
                   SlidableAction(
                     onPressed: (ctx){
-                      TransactionDb.instance.deleteTransaction(_value.id!);
+                      TransactionDb.instance.deleteTransaction(value.id!);
                     },
                     icon: Icons.delete,
                   )
@@ -40,17 +40,17 @@ class ScreenTransaction extends StatelessWidget {
                   leading: CircleAvatar(                                           
                    backgroundColor: Colors.lightBlue,
                    radius: 30,                      
-                   child: _value.type==CategoryType.income ?Image.asset('assets/images/income.jpg') :Image.asset('assets/images/expense.jpg'),//Text(parseDate(_value.date),textAlign: TextAlign.center,style: const TextStyle(color: Colors.white),),
+                   child: value.type==CategoryType.income ?Image.asset('assets/images/income.jpg') :Image.asset('assets/images/expense.jpg'),//Text(parseDate(_value.date),textAlign: TextAlign.center,style: const TextStyle(color: Colors.white),),
                   ),
                   title: Text(
-                    _value.type==CategoryType.income ?"+ ₹${_value.amount.toString()}" :"- ₹${_value.amount.toString()}",
-                    style: TextStyle(fontWeight: FontWeight.bold ,color: _value.type==CategoryType.income ?Colors.green :Colors.red),
+                    value.type==CategoryType.income ?"+ ₹${value.amount.toString()}" :"- ₹${value.amount.toString()}",
+                    style: TextStyle(fontWeight: FontWeight.bold ,color: value.type==CategoryType.income ?Colors.green :Colors.red),
                   ),
-                  subtitle: Text(_value.category.name),
+                  subtitle: Text(value.category.name),
                   onTap: () {
-                    showTransactionDetails(context, _value);
+                    showTransactionDetails(context, value);
                   },
-                  trailing: Text(parseDate(_value.date)),
+                  trailing: Text(parseDate(value.date)),
                 ),
               ),
             );
@@ -65,8 +65,8 @@ class ScreenTransaction extends StatelessWidget {
   }
 
   String parseDate(DateTime date){
-    final _date = DateFormat.MMMd().format(date);
-    final _splitedDate = _date.split(' ');
-    return '${_splitedDate.last}\n${_splitedDate.first}';
+    final newdate = DateFormat.MMMd().format(date);
+    final splitedDate = newdate.split(' ');
+    return '${splitedDate.last}\n${splitedDate.first}';
   }
 }

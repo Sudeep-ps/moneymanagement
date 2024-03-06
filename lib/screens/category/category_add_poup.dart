@@ -4,7 +4,7 @@ import 'package:moneymanagement/models/category/category_model.dart';
 
 ValueNotifier<CategoryType> selectCategory=ValueNotifier(CategoryType.income);
 Future<void> showCategoryAddPopup(BuildContext context) async{
-  final _nameeditcontroller = TextEditingController();
+  final nameeditcontroller = TextEditingController();
   showDialog(
     context: context, 
     builder: (ctx){
@@ -17,7 +17,7 @@ Future<void> showCategoryAddPopup(BuildContext context) async{
               padding: const EdgeInsets.all(8.0),
               child: TextFormField(
                 textCapitalization: TextCapitalization.words,
-                controller: _nameeditcontroller,
+                controller: nameeditcontroller,
                 decoration: const InputDecoration(
                   hintText: 'Category Name',
                   border: OutlineInputBorder(borderRadius: BorderRadius.all(Radius.circular(25)))
@@ -35,18 +35,18 @@ Future<void> showCategoryAddPopup(BuildContext context) async{
               padding: const EdgeInsets.all(8.0),
               child: ElevatedButton(
                 onPressed: (){
-                  final _name=_nameeditcontroller.text;
-                  if(_name.isEmpty){
+                  final name=nameeditcontroller.text;
+                  if(name.isEmpty){
                     return;
                   }
-                  final _type=selectCategory.value;
-                  final _category=CategoryModel(
+                  final type=selectCategory.value;
+                  final category=CategoryModel(
                     id: DateTime.now().millisecondsSinceEpoch.toString(), 
-                    name: _name, 
-                    type: _type,
+                    name: name, 
+                    type: type,
                   );
                   
-                  CategoryDB().insertCategory(_category);
+                  CategoryDB().insertCategory(category);
                   Navigator.of(ctx).pop();
                 }, 
                 child: const Text('Add')

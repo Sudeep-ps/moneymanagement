@@ -45,6 +45,7 @@ class _ScreenSlashState extends State<ScreenSlash> {
   }
   Future<void> gotohome() async{
     await Future.delayed(const Duration(seconds: 2));
-    await Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (ctx)=> const Screenhome()));
+    if (!context.mounted) return;
+    Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (ctx)=> const Screenhome()));
   }
 }

@@ -3,7 +3,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:moneymanagement/models/category/category_model.dart';
 import 'package:moneymanagement/models/transaction/transaction_model.dart';
 
-const TRANSACTION_DB_NAME="transaction-db";
+const transactionDbName="transaction-db";
 double bal=0;
 abstract class TransactionDbFunctions{
   
@@ -26,37 +26,37 @@ class TransactionDb implements TransactionDbFunctions{
 
   @override
   Future<void> addTransaction(TransactionModel obj) async{
-    final _db= await Hive.openBox<TransactionModel>(TRANSACTION_DB_NAME);
-    _db.put(obj.id,obj);
+    final db= await Hive.openBox<TransactionModel>(transactionDbName);
+    db.put(obj.id,obj);
     refresh();
     
   }
 
   Future<void> refresh() async{
-    final _list = await getAllTransaction();
-    _list.sort((first,second)=> second.date.compareTo(first.date));
+    final list = await getAllTransaction();
+    list.sort((first,second)=> second.date.compareTo(first.date));
     transactionlistlistener.value.clear();
-    transactionlistlistener.value.addAll(_list);
+    transactionlistlistener.value.addAll(list);
     transactionlistlistener.notifyListeners();
   }
   
   @override
   Future<List<TransactionModel>> getAllTransaction() async{
-    final _db=await Hive.openBox<TransactionModel>(TRANSACTION_DB_NAME);
+    final db=await Hive.openBox<TransactionModel>(transactionDbName);
     bal=0;
-    _db.values.where((element) => element.type==CategoryType.income).forEach((element) {
+    db.values.where((element) => element.type==CategoryType.income).forEach((element) {
       bal=bal+element.amount;
     });
-    _db.values.where((element) => element.type==CategoryType.expense).forEach((element) {
+    db.values.where((element) => element.type==CategoryType.expense).forEach((element) {
       bal=bal-element.amount;
     });
-    return _db.values.toList();
+    return db.values.toList();
   }
   
   @override
   Future<void> deleteTransaction(String id) async{
-    final _db=await Hive.openBox<TransactionModel>(TRANSACTION_DB_NAME);
-    await _db.delete(id);
+    final db=await Hive.openBox<TransactionModel>(transactionDbName);
+    await db.delete(id);
     refresh();
   }
   
